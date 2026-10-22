@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1118">
+  <meta name="description" content="Filo: attività, scadenze, sotto-attività e allegati, senza distrazioni.">
+  <title>Filo Voice Lab — ambiente di prova</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles-voice-lab.css">
+  <script src="config.js"></script>
+  <script type="module" src="voice-lab.js"></script>
+  <script type="module" src="app-voice-lab.js"></script>
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="app-header">
+      <a class="brand" href="./" aria-label="Filo, pagina iniziale">Filo<span>.</span></a>
+      <span class="lab-pill" title="Ambiente separato dal sito principale">LAB</span>
+      <button class="mic-button" type="button" id="voiceTask" aria-label="Comandi vocali Filo" title="Comandi vocali e IA">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2.7" width="6" height="12" rx="3"/><path d="M5.5 10.5a6.5 6.5 0 0 0 13 0M12 17v4M8 21h8"/></svg>
+      </button>
+      <button class="new-button" type="button" id="newTask" title="Nuova attività" aria-label="Nuova attività">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </header>
+
+    <main>
+      <div id="tasks" class="task-list" aria-label="Attività ordinate per data di scadenza" aria-live="polite"><div class="loading-state" role="status">Caricamento attività…</div></div>
+    </main>
+
+    <footer class="app-footer">
+      <span id="storageStatus" role="status">Modalità locale: dati salvati in questo browser</span>
+      <div class="footer-links">
+        <button type="button" id="exportBackup">Esporta backup</button>
+        <button type="button" id="importBackup">Importa backup</button>
+        <button type="button" id="refreshTasks" title="Ricarica i dati dal cloud">Aggiorna</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+      </div>
+    </footer>
+  </div>
+
+  <div class="voice-overlay hidden" id="voiceOverlay" role="dialog" aria-modal="true" aria-labelledby="voiceTitle">
+    <div class="voice-dialog">
+      <div class="voice-top"><div><div class="voice-kicker">FILO / LABORATORIO</div><h2 id="voiceTitle">Comando vocale</h2></div><button type="button" id="voiceClose" aria-label="Chiudi">×</button></div>
+      <p class="voice-lead">Dì a Filo cosa fare. Le modifiche saranno mostrate in anteprima e applicate solo dopo la tua conferma.</p>
+      <div class="record-line"><button type="button" class="record-btn" id="voiceRecord"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg><span>Registra</span></button><span class="record-state" id="voiceState" role="status">Puoi usare anche il testo.</span></div>
+      <label for="voiceTranscript" class="voice-label">Comando</label>
+      <textarea id="voiceTranscript" rows="3" placeholder="Es. Crea l’attività chiamare Luca per domani; aggiungi una sotto-attività inviare il preventivo"></textarea>
+      <div class="voice-hint">Puoi correggere le parole riconosciute prima di eseguire le azioni.</div>
+      <div class="voice-actions"><button type="button" id="voiceAnalyze" class="voice-primary">Interpreta comando</button><button type="button" id="voiceExample" class="voice-secondary">Esempio</button></div>
+      <div class="voice-plan hidden" id="voicePlan" aria-live="polite"></div>
+      <div class="voice-confirm hidden" id="voiceConfirmRow"><button type="button" id="voiceConfirm" class="voice-primary">Conferma modifiche</button><button type="button" id="voiceDiscard" class="voice-secondary">Annulla</button></div>
+      <p class="voice-safety">Ambiente di prova separato: non usa il database della versione stabile. Nessuna modifica automatica senza conferma.</p>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>
